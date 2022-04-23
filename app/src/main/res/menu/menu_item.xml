@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/nav_today"
+        android:title="Today"
+        android:icon="@drawable/ic_today"
+        />
+
+    <item android:id="@+id/nav_week"
+        android:title="Weekly"
+        android:icon="@drawable/ic_week"
+        />
+
+    <item android:id="@+id/nav_share"
+        android:title="Share"
+        android:icon="@drawable/ic_share"
+        />
+
+</menu>

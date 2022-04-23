@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="light_grayish_blue">#F4F6FA</color>
+    <color name="blue_light">#F2F4F6</color>
+    <color name="just_gray">#EEEEEE</color>
+    <color name="off_white">#FAFAFA</color>
+    <color name="sky_blue">#45C6DD</color>
+    <color name="sky_blue_10">#1A45C6DD</color>
+
+    <color name="pure_gray">#99999C</color>
+    <color name="very_dark_gray">#3E3E3E</color>
+    <color name="very_dark_gray_black">#363636</color>
+    <color name="very_dark_gray_very_black">#242424</color>
+    <color name="very_dark_gray_very_black_50">#80242424</color>
+    <color name="very_dark_gray_black_30">#4D363636</color>
+    <color name="very_dark_gray_black_50">#80363636</color>
+    <color name="very_dark_gray_50">#803E3E3E</color>
+    <color name="dark_gray">#808080</color>
+    <color name="dark_gray_50">#80808080</color>
+    <color name="very_light_red">#E26262</color>
+    <color name="very_light_red_10">#1AE26262</color>
+    <color name="very_light_green">#31C491</color>
+    <color name="very_light_green_10">#1A31C491</color>
+
+    <color name="very_light_gray">#E4E4E4</color>
+    <color name="very_light_gray_10">#E5E5E5</color>
+    <color name="transparent">#00000000</color>
+    <color name="not_transparent">#4D000000</color>
+    <color name="very_light_gray_white">#F3F3F3</color>
+    <color name="gray_20">#33B4B4B4</color>
+</resources>

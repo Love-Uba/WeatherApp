@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="3"
+    tools:context=".ui.TodayFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.8"
+        android:background="@color/teal_700"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/home_drawer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:src="@drawable/ic_drawer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/share_drawer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:src="@drawable/ic_search"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/city_nameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Lagos"
+            android:textSize="24dp"
+            android:layout_marginTop="40dp"
+            app:layout_constraintStart_toStartOf="@+id/home_drawer"
+            app:layout_constraintTop_toBottomOf="@+id/home_drawer" />
+
+        <TextView
+            android:id="@+id/date_Tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thursday April 14"
+            android:textSize="10dp"
+            app:layout_constraintStart_toStartOf="@+id/city_nameTv"
+            app:layout_constraintTop_toBottomOf="@+id/city_nameTv" />
+
+        <TextView
+            android:id="@+id/weather_Tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sunny"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="@+id/date_Tv"
+            app:layout_constraintTop_toBottomOf="@+id/date_Tv" />
+
+        <ImageView
+            android:id="@+id/weather_Icon"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_search"
+            app:layout_constraintBottom_toBottomOf="@+id/weather_Tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline4"
+            app:layout_constraintTop_toTopOf="@+id/city_nameTv" />
+
+
+        <TextView
+            android:id="@+id/temp_Tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="36dp"
+            android:text="18"
+            android:textStyle="bold"
+            android:textSize="64dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/weather_Tv" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="120dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.2">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/feels_like_wrap"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline2"
+            app:layout_constraintEnd_toStartOf="@+id/guideline3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/feels_likeIv"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_margin="8dp"
+                android:src="@drawable/ic_search"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/feels_like_Tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:text="Feels like"
+                android:textSize="20dp"
+                app:layout_constraintStart_toEndOf="@+id/feels_likeIv"
+                app:layout_constraintTop_toTopOf="@+id/feels_likeIv" />
+
+            <TextView
+                android:id="@+id/feels_like_todayTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Today"
+                android:textColor="@color/sky_blue"
+                android:textSize="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/feels_like_tempTv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/feels_like_tempTv" />
+
+            <TextView
+                android:id="@+id/feels_like_tempTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="22"
+                android:textSize="16dp"
+                app:layout_constraintStart_toStartOf="@+id/feels_like_Tv"
+                app:layout_constraintTop_toBottomOf="@+id/feels_like_Tv" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/humidity_wrap"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/humidity_Iv"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_margin="8dp"
+                android:src="@drawable/ic_search"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/humidity_Tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:text="Humidity"
+                android:textSize="20dp"
+                app:layout_constraintStart_toEndOf="@+id/humidity_Iv"
+                app:layout_constraintTop_toTopOf="@+id/humidity_Iv" />
+
+            <TextView
+                android:id="@+id/humidity_percentTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="22"
+                android:textSize="16dp"
+                app:layout_constraintStart_toStartOf="@+id/humidity_Tv"
+                app:layout_constraintTop_toBottomOf="@+id/humidity_Tv" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/wind_wrap"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/feels_like_wrap">
+
+            <ImageView
+                android:id="@+id/wind_Iv"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_margin="8dp"
+                android:src="@drawable/ic_search"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/wind_Tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:text="Wind"
+                android:textSize="20dp"
+                app:layout_constraintStart_toEndOf="@+id/wind_Iv"
+                app:layout_constraintTop_toTopOf="@+id/wind_Iv" />
+
+            <TextView
+                android:id="@+id/wind_speedTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="22"
+                android:textSize="16dp"
+                app:layout_constraintStart_toStartOf="@+id/wind_Tv"
+                app:layout_constraintTop_toBottomOf="@+id/wind_Tv" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/uv_wrap"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toBottomOf="@+id/humidity_wrap">
+
+            <ImageView
+                android:id="@+id/uv_Iv"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_margin="8dp"
+                android:src="@drawable/ic_search"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/uv_Tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:text="UV Index"
+                android:textSize="20dp"
+                app:layout_constraintStart_toEndOf="@+id/uv_Iv"
+                app:layout_constraintTop_toTopOf="@+id/uv_Iv" />
+
+            <TextView
+                android:id="@+id/uv_IndexTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="22"
+                android:textSize="16dp"
+                app:layout_constraintStart_toStartOf="@+id/uv_Tv"
+                app:layout_constraintTop_toBottomOf="@+id/uv_Tv" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+</LinearLayout>

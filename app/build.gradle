@@ -1,0 +1,100 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-android-extensions'
+}
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        applicationId "com.example.weatherapp"
+        minSdk 21
+        targetSdk 31
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    buildFeatures {
+        viewBinding true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation "androidx.core:core-ktx:$core_version"
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation "com.google.android.material:material:$material_version"
+    implementation "androidx.constraintlayout:constraintlayout:$constraintlayout_version"
+    testImplementation "junit:junit:$junit_version"
+    androidTestImplementation "androidx.test.ext:$junit_ext_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core_version"
+
+    // For loading and tinting drawables on older versions of the platform
+    implementation "androidx.appcompat:appcompat-resources:$appcompat_version"
+
+    implementation "androidx.activity:activity-ktx:$activity_version"
+    implementation "androidx.fragment:fragment-ktx:$fragment_version"
+
+    //Lifecycle
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$arch_lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$arch_lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$arch_lifecycle_version"
+    //Navigation Component
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    //Coroutine
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
+    //gson
+    implementation "com.google.code.gson:gson:$gson_version"
+
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
+    // define a BOM and its version
+    implementation "com.squareup.okhttp3:okhttp-bom:$okhttp_version"
+
+    // define any required OkHttp artifacts without version
+    implementation "com.squareup.okhttp3:okhttp"
+    implementation "com.squareup.okhttp3:logging-interceptor"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-paging:$room_paging_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
+    //Kotlin Extensions and Coroutines support for Room
+    implementation "androidx.room:room-ktx:$room_version"
+
+    //Test helpers
+    testImplementation "androidx.room:room-testing:$room_version"
+
+    //HILT
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    implementation "androidx.legacy:legacy-support-v4:$legacy_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+
+    implementation 'com.google.android.gms:play-services-location:19.0.1'
+}
