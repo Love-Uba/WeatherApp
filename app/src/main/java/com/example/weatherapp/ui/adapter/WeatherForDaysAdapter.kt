@@ -6,13 +6,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.weatherapp.data.local.WeatherForDaysEntity
 import com.example.weatherapp.data.models.response.Daily
 import com.example.weatherapp.databinding.LayoutWeekdaysItemBinding
+import com.example.weatherapp.utils.UtilConstants.DATE_DISPLAY_FORMAT
+import com.example.weatherapp.utils.getFormattedDateTime
 import kotlinx.android.synthetic.main.layout_weekdays_item.view.*
 
 class WeatherForDaysAdapter : RecyclerView.Adapter<WeatherForDaysAdapter.BaseViewHolder>() {
 
-    var adapterList = emptyList<Daily>()
+    var adapterList = emptyList<WeatherForDaysEntity>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -31,25 +34,22 @@ class WeatherForDaysAdapter : RecyclerView.Adapter<WeatherForDaysAdapter.BaseVie
 
     inner class BaseViewHolder(private val bnd: LayoutWeekdaysItemBinding) :
         RecyclerView.ViewHolder(bnd.root) {
-        fun bind(item: Daily) {
+        fun bind(item: WeatherForDaysEntity) {
 
             item.run {
-//                val iconState = getWeatherCondition(item)
-                for (items in item.weather.indices) {
-                    itemView.weather_summaryTv.text = item.weather[items].description
-                    val icon = item.weather[items].icon
-                    Glide.with(itemView.context)
-                        .load("http://openweathermap.org/img/wn/$icon@2x.png")
-                        .into(bnd.weatherIv)
-                    itemView.temp_rangeTv.text = "${item.temp.min}/${item.temp.max}"
-                    itemView.days_Tv.text = item.temp.day.toString()
-                }
+                itemView.weather_summaryTv.text = "${item.main}; ${item.description}"
+                val icon = item.icon
+                Glide.with(itemView.context)
+                    .load("https://openweathermap.org/img/wn/$icon@2x.png")
+                    .into(bnd.weatherIv)
+                itemView.temp_rangeTv.text = "${item.min}/${item.max}"
+                itemView.days_Tv.text = item.date.toString().getFormattedDateTime(DATE_DISPLAY_FORMAT)
             }
 
         }
     }
 
-//    private fun getWeatherCondition(data: Daily): String {
+//    private fun getWeatherCondition(data: WeatherForDaysEntity): String {
 //        var iconCondition = "800"
 //        for (count in data.weather.indices) {
 //            iconCondition = when (data.weather[count].id) {
@@ -66,7 +66,7 @@ class WeatherForDaysAdapter : RecyclerView.Adapter<WeatherForDaysAdapter.BaseVie
 //        return iconCondition
 //    }
 
-    fun populatePredictions(weatherEntity: List<Daily>) {
+    fun populatePredictions(weatherEntity: List<WeatherForDaysEntity>) {
         this.adapterList = weatherEntity
         notifyDataSetChanged()
     }

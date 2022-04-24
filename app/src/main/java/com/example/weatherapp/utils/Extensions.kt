@@ -1,5 +1,6 @@
 package com.example.weatherapp.utils
 
+import android.view.View
 import com.example.weatherapp.utils.UtilConstants.DATE_DISPLAY_FORMAT
 import com.example.weatherapp.utils.UtilConstants.SERVER_DATE_FORMAT
 import java.text.ParseException
@@ -25,4 +26,16 @@ fun String.getFormattedDateTime(displayFormat: String): String {
     } catch (exception: Exception) {
         SimpleDateFormat(displayFormat, Locale.getDefault()).format(Date())
     }
+}
+
+fun View.gone(){
+    this.visibility = View.GONE
+}
+
+fun View.show(){
+    this.visibility = View.VISIBLE
+}
+
+fun View.hide(){
+    this.visibility = View.INVISIBLE
 }
