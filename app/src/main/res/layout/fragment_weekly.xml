@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:text="New Lagos"
+            tools:text="New Lagos"
             android:textSize="24dp"
             app:layout_constraintStart_toStartOf="@+id/home_drawer"
             app:layout_constraintTop_toBottomOf="@+id/home_drawer" />
@@ -50,7 +50,7 @@
             android:id="@+id/date_Tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Thursday April 14"
+            tools:text="Thursday April 14"
             android:textSize="10dp"
             app:layout_constraintStart_toStartOf="@+id/city_nameTv"
             app:layout_constraintTop_toBottomOf="@+id/city_nameTv" />
@@ -60,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Sunny"
+            tools:text="Sunny"
             android:textSize="16dp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/date_Tv"
@@ -70,7 +70,7 @@
             android:id="@+id/weather_Icon"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:src="@drawable/ic_search"
+            tools:src="@drawable/ic_search"
             android:layout_marginEnd="20dp"
             app:layout_constraintBottom_toBottomOf="@+id/weather_Tv"
             app:layout_constraintEnd_toEndOf="parent"
@@ -83,7 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="18"
+            tools:text="18"
             android:textSize="64dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -106,7 +106,6 @@
         android:layout_weight="2.2"
         android:orientation="vertical"
         tools:listitem="@layout/layout_weekdays_item"
-        tools:itemCount="7"
         />
 
 </LinearLayout>
