@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,6 +28,7 @@ import com.example.weatherapp.viewmodels.WeeklyViewModel
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -58,34 +60,21 @@ class WeeklyFragment : Fragment() {
 
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireActivity())
+
+        return bnd.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(p0: LocationResult) {
                 super.onLocationResult(p0)
                 lastLocation = p0.lastLocation
                 lastLat = lastLocation.latitude.format(2).toDouble()
                 lastLong = lastLocation.longitude.format(2).toDouble()
-                viewModel.actionSearch(lastLat, lastLong)
+//                viewModel.actionSearch(lastLat, lastLong)
             }
         }
         createLocationRequest()
-        Log.d("TraceLocation", "$lastLong $lastLat")
-        return bnd.root
-
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-//        locationCallback = object : LocationCallback() {
-//            override fun onLocationResult(p0: LocationResult) {
-//                super.onLocationResult(p0)
-//                lastLocation = p0.lastLocation
-//                lastLat = lastLocation.latitude.format(2).toDouble()
-//                lastLong = lastLocation.longitude.format(2).toDouble()
-//                viewModel.actionSearch(lastLat, lastLong)
-//            }
-//        }
-//        createLocationRequest()
         setUpViews()
         setUpViewModels()
     }
@@ -94,21 +83,23 @@ class WeeklyFragment : Fragment() {
 
 
     private fun setUpViewModels() {
-        viewModel.getAllSearchResponse.observe(viewLifecycleOwner) { result ->
+        viewModel.actionSearch(6.45,3.65)
+        viewModel.weeklyFetchResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Result.Error -> {}
-                is Result.Loading -> {}
+                is Result.Loading -> {
+                    Toast.makeText(requireContext(), "Still Loading", Toast.LENGTH_SHORT).show()
+                }
                 is Result.Success -> {
                     bnd.cityNameTv.text = result.value.timezone.substringAfter("/")
-                    bnd.weatherTv.text = result.value.current.weather[0].main
-                    bnd.tempTv.text = result.value.current.temp.toString()
-                    weatherAdapter.populatePredictions(result.value.daily)
+                    bnd.weatherTv.text = result.value.status
+                    bnd.tempTv.text = result.value.temp.toString()
+//                    weatherAdapter.populatePredictions(result.value)
 
-                    val icon = result.value.current.weather[0].icon
-
-//                    Glide.with(requireContext())
-//                        .load("http://openweathermap.org/img/wn/$icon@2x.png")
-//                        .into(bnd.weatherIcon)
+                    val icon = result.value.icon
+                    Glide.with(requireContext())
+                        .load("http://openweathermap.org/img/wn/$icon@2x.png")
+                        .into(bnd.weatherIcon)
 
                 }
             }
@@ -122,10 +113,6 @@ class WeeklyFragment : Fragment() {
             setHasFixedSize(true)
         }
         bnd.dateTv.text = currentDate
-
-        Glide.with(requireContext())
-            .load("http://openweathermap.org/img/wn/10d@2x.png")
-            .into(bnd.weatherIcon)
     }
 
     private fun startLocationUpdates() {
@@ -195,8 +182,6 @@ class WeeklyFragment : Fragment() {
         if (!locationUpdateState) {
             startLocationUpdates()
         }
-        viewModel.actionSearch(lastLat, lastLong)
     }
-
 
 }

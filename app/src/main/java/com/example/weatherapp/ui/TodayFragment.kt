@@ -1,19 +1,19 @@
 package com.example.weatherapp.ui
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.example.weatherapp.data.wrapper.Result
@@ -25,13 +25,12 @@ import com.example.weatherapp.viewmodels.TodayViewModel
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 @AndroidEntryPoint
 class TodayFragment : Fragment() {
 
     private lateinit var bnd: FragmentTodayBinding
-    private val viewModel: TodayViewModel by viewModels()
+    private val viewModel: TodayViewModel by activityViewModels()
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var lastLocation: Location
     private var lastLong = 0.00
@@ -55,53 +54,53 @@ class TodayFragment : Fragment() {
 
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireActivity())
+
+        return bnd.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(p0: LocationResult) {
                 super.onLocationResult(p0)
                 lastLocation = p0.lastLocation
                 lastLat = lastLocation.latitude.format(2).toDouble()
                 lastLong = lastLocation.longitude.format(2).toDouble()
-
-                viewModel.actionSearch(lastLat, lastLong)
+//                viewModel.actionSearch(lastLat, lastLong)
             }
         }
         createLocationRequest()
-        return bnd.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         setUpViews()
         setUpViewModels()
     }
 
     private fun setUpViews() {
         bnd.dateTv.text = currentDate
-        Glide.with(requireContext())
-            .load("http://openweathermap.org/img/wn/10d@2x.png")
-            .into(bnd.weatherIcon)
     }
 
     private val currentDate = showcurrentTime().toString("dd/MM/yyyy")
 
     private fun setUpViewModels() {
-        viewModel.getFetchResponse.observe(viewLifecycleOwner) { result ->
+        viewModel.actionSearch(6.45, 3.65)
+        viewModel.todayFetchResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Result.Error -> {}
-                is Result.Loading -> {}
+                is Result.Loading -> {
+                    Toast.makeText(requireContext(), "Still Loading...", Toast.LENGTH_LONG).show()
+                }
                 is Result.Success -> {
                     bnd.cityNameTv.text = result.value.timezone.substringAfter("/")
-                    bnd.tempTv.text = result.value.current.temp.toString()
-                    bnd.humidityPercentTv.text = result.value.current.humidity.toString()
-                    bnd.windSpeedTv.text = result.value.current.wind_speed.toString()
-                    bnd.feelsLikeTempTv.text = result.value.current.feels_like.toString()
-                    for (items in result.value.current.weather) {
-                        bnd.weatherTv.text = items.main
-                    }
-                    bnd.uvIndexTv.text = result.value.current.uvi.toString()
-
+                    bnd.tempTv.text = result.value.temp.toString()
+                    bnd.humidityPercentTv.text = result.value.humidity.toString()
+                    bnd.windSpeedTv.text = result.value.wind.toString()
+                    bnd.feelsLikeTempTv.text = result.value.feelsLike.toString()
+                    bnd.weatherTv.text = result.value.status
+                    bnd.uvIndexTv.text = result.value.uvIndex.toString()
+                    val icon = result.value.icon
+                    Glide.with(requireContext())
+                        .load("http://openweathermap.org/img/wn/$icon@2x.png")
+                        .into(bnd.weatherIcon)
                 }
-
             }
         }
     }
