@@ -5,21 +5,18 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface WeatherDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllWeather(filmEntity: List<WeatherForDaysEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAllWeather(weatherEntity: List<WeatherForDaysEntity>)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertWeather(weatherEntity: WeatherEntity)
+    suspend fun insertWeather(peopleEntity: List<WeatherEntity>)
 
     @Query("SELECT * FROM weather_table")
-    fun fetchWeather(): Flow<WeatherEntity>
+    fun fetchWeather(): LiveData<List<WeatherEntity>>
 
     @Query("SELECT * FROM weatherfordays_table")
-    fun fetchAllWeather(): Flow<List<WeatherForDaysEntity>>
-
+    fun fetchAllWeather(): LiveData<List<WeatherForDaysEntity>>
 }

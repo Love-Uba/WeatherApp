@@ -41,7 +41,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setCurrentFragment(fragment: Fragment) =
-        childFragmentManager.beginTransaction().apply {
+        parentFragmentManager.beginTransaction().apply {
             replace(R.id.nav_fragment_container,fragment)
                 .commit()
         }

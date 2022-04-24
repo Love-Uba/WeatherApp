@@ -1,18 +1,13 @@
 package com.example.mobilechallengeone.di
 
-import android.content.Context
-import androidx.room.Room
 import com.example.weatherapp.data.ApiService
 import com.example.weatherapp.data.WeatherRepository
-import com.example.weatherapp.data.local.WeatherDao
-import com.example.weatherapp.data.local.WeatherDatabase
 import com.example.weatherapp.utils.UtilConstants.BASE_URL
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -62,33 +57,7 @@ object AppModule {
     fun provideApiService(retrofit: Retrofit): ApiService =
         retrofit.create(ApiService::class.java)
 
-
-    @Singleton
     @Provides
-    fun provideDatabase(@ApplicationContext context: Context): WeatherDatabase {
-        var INSTANCE: WeatherDatabase? = null
-
-        return INSTANCE ?: synchronized(this) {
-
-            val instance = Room.databaseBuilder(
-                context.applicationContext,
-                WeatherDatabase::class.java,
-                WeatherDatabase.dbase
-            ).build()
-
-            INSTANCE = instance
-
-            instance
-        }
-    }
-
-    @Singleton
-    @Provides
-    fun provideWeatherDao(weatherDatabase: WeatherDatabase): WeatherDao {
-        return weatherDatabase.weatherDao()
-    }
-
-    @Provides
-    fun provideRepository(apiService: ApiService, weatherDatabase: WeatherDatabase) = WeatherRepository(apiService, weatherDatabase)
+    fun provideRepository(apiService: ApiService) = WeatherRepository(apiService)
 
 }
