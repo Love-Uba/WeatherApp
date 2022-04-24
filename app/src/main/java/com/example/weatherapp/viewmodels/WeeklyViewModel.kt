@@ -19,33 +19,5 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WeeklyViewModel @Inject constructor(private val weatherRepository: WeatherRepository): ViewModel() {
-    private val _searchCoordResponse = MutableLiveData<Result<WeatherEntity>>()
 
-    val weeklyFetchResponse: LiveData<Result<WeatherEntity>> = _searchCoordResponse
-
-//    fun actionSearch() {
-//        _searchByCoordResponse.value = Result.Loading
-//        viewModelScope.launch(Dispatchers.IO) {
-////            try{
-//                weatherRepository.getSavedWeather().collect {
-//                    _searchByCoordResponse.postValue(it)
-////                }
-////            }catch (ex: Exception){
-////                println(ex.localizedMessage)
-//            }
-//        }
-//    }
-
-    fun actionSearch(lat: Double,long: Double) {
-        _searchCoordResponse.value = Result.Loading
-        viewModelScope.launch(Dispatchers.IO) {
-            try{
-                weatherRepository.getAllWeather(lat, long).collect {
-                    _searchCoordResponse.postValue(it)
-                }
-            }catch (ex: Exception){
-                println(ex.localizedMessage)
-            }
-        }
-    }
 }

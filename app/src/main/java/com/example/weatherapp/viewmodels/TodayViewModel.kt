@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.data.WeatherRepository
 import com.example.weatherapp.data.local.WeatherEntity
+import com.example.weatherapp.data.local.WeatherForDaysEntity
 import com.example.weatherapp.data.models.WeatherResponse
 import com.example.weatherapp.data.models.response.FullWeatherResponse
 import com.example.weatherapp.utils.SingleLiveEvent
@@ -21,8 +22,10 @@ import javax.inject.Inject
 class TodayViewModel @Inject constructor(private val weatherRepository: WeatherRepository) : ViewModel() {
 
     private val _searchByCoordResponse = MutableLiveData<Result<WeatherEntity>>()
+    private val _searchByWeekResponse = MutableLiveData<Result<List<WeatherForDaysEntity>>>()
 
     val todayFetchResponse: LiveData<Result<WeatherEntity>> = _searchByCoordResponse
+    val weeklyFetchResponse: LiveData<Result<List<WeatherForDaysEntity>>> = _searchByWeekResponse
 
     fun actionSearch(lat: Double,long: Double) {
         _searchByCoordResponse.value = Result.Loading
@@ -32,6 +35,19 @@ class TodayViewModel @Inject constructor(private val weatherRepository: WeatherR
                     _searchByCoordResponse.postValue(it)
                 }
             }catch (ex: Exception){
+                println(ex.localizedMessage)
+            }
+        }
+    }
+
+    fun getWeekReport(){
+        _searchByWeekResponse.value = Result.Loading
+        viewModelScope.launch(IO){
+            try{
+                weatherRepository.getAllWeekWeather().collect{
+                    _searchByWeekResponse.postValue(it)
+                }
+            }catch(ex: Exception){
                 println(ex.localizedMessage)
             }
         }

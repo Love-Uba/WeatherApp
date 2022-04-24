@@ -18,9 +18,7 @@ import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.example.weatherapp.data.wrapper.Result
 import com.example.weatherapp.databinding.FragmentTodayBinding
-import com.example.weatherapp.utils.format
-import com.example.weatherapp.utils.showcurrentTime
-import com.example.weatherapp.utils.toString
+import com.example.weatherapp.utils.*
 import com.example.weatherapp.viewmodels.TodayViewModel
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
@@ -66,7 +64,7 @@ class TodayFragment : Fragment() {
                 lastLocation = p0.lastLocation
                 lastLat = lastLocation.latitude.format(2).toDouble()
                 lastLong = lastLocation.longitude.format(2).toDouble()
-//                viewModel.actionSearch(lastLat, lastLong)
+                viewModel.actionSearch(lastLat, lastLong)
             }
         }
         createLocationRequest()
@@ -81,14 +79,19 @@ class TodayFragment : Fragment() {
     private val currentDate = showcurrentTime().toString("dd/MM/yyyy")
 
     private fun setUpViewModels() {
-        viewModel.actionSearch(6.45, 3.65)
+//        viewModel.actionSearch(6.45, 3.65)
         viewModel.todayFetchResponse.observe(viewLifecycleOwner) { result ->
             when (result) {
-                is Result.Error -> {}
+                is Result.Error -> {
+                    Toast.makeText(requireContext(), "Failed to Fetch Weather Data", Toast.LENGTH_LONG).show()
+                }
                 is Result.Loading -> {
-                    Toast.makeText(requireContext(), "Still Loading...", Toast.LENGTH_LONG).show()
+                    bnd.loadingView.setLoadingText("Loading Weather Data...")
+                    bnd.loadingView.show()
                 }
                 is Result.Success -> {
+                    bnd.loadingView.gone()
+                    bnd.todayWrap.show()
                     bnd.cityNameTv.text = result.value.timezone.substringAfter("/")
                     bnd.tempTv.text = result.value.temp.toString()
                     bnd.humidityPercentTv.text = result.value.humidity.toString()
@@ -127,8 +130,8 @@ class TodayFragment : Fragment() {
 
     private fun createLocationRequest() {
         locationRequest = LocationRequest()
-        locationRequest.interval = 10000
-        locationRequest.fastestInterval = 5000
+        locationRequest.interval = 1000000
+        locationRequest.fastestInterval = 500000
         locationRequest.priority =
             LocationRequest.PRIORITY_HIGH_ACCURACY
         val builder = LocationSettingsRequest.Builder()

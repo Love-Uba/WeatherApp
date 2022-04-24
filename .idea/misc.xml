@@ -3,12 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.30885416666666665" />
         <entry key="app/src/main/res/drawable/ic_share.xml" value="0.154" />
         <entry key="app/src/main/res/drawable/ic_thermostat.xml" value="0.154" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_today.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_weekly.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/layout/layout_loading_view.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/layout_weekdays_item.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/menu/menu_item.xml" value="0.28229166666666666" />
       </map>

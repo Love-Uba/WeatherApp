@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import com.example.weatherapp.data.local.WeatherDatabase
 import com.example.weatherapp.data.local.WeatherEntity
+import com.example.weatherapp.data.local.WeatherForDaysEntity
 import com.example.weatherapp.data.wrapper.Result
 import com.example.weatherapp.data.models.WeatherResponse
 import com.example.weatherapp.data.models.response.FullWeatherResponse
@@ -24,16 +25,26 @@ class WeatherRepository @Inject constructor(
 
     suspend fun getAllWeather(lat: Double, long: Double): Flow<Result<WeatherEntity>> {
 
-        var weatherData : Flow<Result<WeatherEntity>> = weatherDatabase.weatherDao().fetchWeather().map {
-            Result.Success(it)
-        }
+        var weatherData: Flow<Result<WeatherEntity>> =
+            weatherDatabase.weatherDao().fetchWeather().map {
+                Result.Success(it)
+            }
 
         withContext(Dispatchers.IO) {
             try {
                 val response = apiService.getAllWeatherData(lat, long)
 
                 if (response.isSuccessful) {
-                    weatherDatabase.weatherDao().insertWeather(DataMapper().mapper(response.body()!!))
+                    weatherDatabase.weatherDao()
+                        .insertWeather(DataMapper().mapper(response.body()!!))
+
+                    val weekReport = response.body()!!.daily.map {
+                        DataMapper().weekMapper(it)
+                    }
+                    withContext(Dispatchers.IO) {
+                        saveAllWeather(weekReport)
+                    }
+
                 } else {
                     Result.Error("Failed to fetch Weather data. Try again")
                     weatherData = flow {
@@ -50,11 +61,13 @@ class WeatherRepository @Inject constructor(
         return weatherData
     }
 
-     fun getSavedWeather() : Flow<Result<WeatherEntity>>{
-
-        return weatherDatabase.weatherDao().fetchWeather().map {
-            Result.Success(it)
-        }
+    private fun saveAllWeather(weekWeather: List<WeatherForDaysEntity>) {
+        weatherDatabase.weatherDao().insertAllWeather(weekWeather)
     }
 
+    fun getAllWeekWeather() : Flow<Result<List<WeatherForDaysEntity>>> {
+        return weatherDatabase.weatherDao().fetchAllWeather().map {
+                Result.Success(it)
+            }
+    }
 }
