@@ -10,22 +10,22 @@ import javax.inject.Inject
 
 class WeatherRepository @Inject constructor(private val apiService: ApiService) {
 
-    suspend fun getWeather(city: String): Result<WeatherResponse> {
-
-        return try {
-
-            val response = apiService.getWeatherData(city)
-
-            if (response.isSuccessful) {
-                Result.Success(response.body()!!)
-            } else {
-                Result.Error("Failed to fetch Weather data. Try again")
-            }
-        } catch (ex: Exception) {
-
-            Result.Error(ex.localizedMessage ?: "Something went wrong.")
-        }
-    }
+//    suspend fun getWeather(city: String): Result<WeatherResponse> {
+//
+//        return try {
+//
+//            val response = apiService.getWeatherData(city)
+//
+//            if (response.isSuccessful) {
+//                Result.Success(response.body()!!)
+//            } else {
+//                Result.Error("Failed to fetch Weather data. Try again")
+//            }
+//        } catch (ex: Exception) {
+//
+//            Result.Error(ex.localizedMessage ?: "Something went wrong.")
+//        }
+//    }
 
 
     suspend fun getAllWeather(lat: Double,long: Double) : Result<FullWeatherResponse>{
@@ -40,6 +40,7 @@ class WeatherRepository @Inject constructor(private val apiService: ApiService) 
                 Result.Error("Failed to fetch Weather data. Try again")
             }
         } catch (ex: Exception) {
+            Log.d("ERRORTAGCATCH", "catch: ${ex.localizedMessage} ")
 
             Result.Error(ex.localizedMessage ?: "Something went wrong.")
         }

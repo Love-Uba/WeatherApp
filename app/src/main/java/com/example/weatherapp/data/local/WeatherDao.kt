@@ -1,0 +1,22 @@
+package com.example.weatherapp.data.local
+
+import androidx.lifecycle.LiveData
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+
+@Dao
+interface WeatherDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllWeather(filmEntity: List<WeatherForDaysEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertWeather(peopleEntity: List<WeatherEntity>)
+
+    @Query("SELECT * FROM weather_table")
+    fun fetchWeather(): LiveData<List<WeatherEntity>>
+
+    @Query("SELECT * FROM weatherfordays_table")
+    fun fetchAllWeather(): LiveData<List<WeatherForDaysEntity>>
+}

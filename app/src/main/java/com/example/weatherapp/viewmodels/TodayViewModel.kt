@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.data.WeatherRepository
 import com.example.weatherapp.data.models.WeatherResponse
+import com.example.weatherapp.data.models.response.FullWeatherResponse
 import com.example.weatherapp.utils.SingleLiveEvent
 import kotlinx.coroutines.launch
 import com.example.weatherapp.data.wrapper.Result
@@ -15,17 +16,14 @@ import javax.inject.Inject
 @HiltViewModel
 class TodayViewModel @Inject constructor(private val weatherRepository: WeatherRepository) : ViewModel() {
 
-    private val searchByCityResponse = SingleLiveEvent<Result<WeatherResponse>>()
+    private val searchByCoordResponse = SingleLiveEvent<Result<FullWeatherResponse>>()
 
-    val getSearchResponse: LiveData<Result<WeatherResponse>> = searchByCityResponse
+    val getFetchResponse: LiveData<Result<FullWeatherResponse>> = searchByCoordResponse
 
-    fun actionSearch(city: String) {
-        Log.d("TESTVM", "onCreateView: called")
-        searchByCityResponse.value = Result.Loading
+    fun actionSearch(lat: Double,long: Double) {
+        searchByCoordResponse.value = Result.Loading
         viewModelScope.launch {
-            searchByCityResponse.value = weatherRepository.getWeather(city)
+            searchByCoordResponse.value = weatherRepository.getAllWeather(lat, long)
         }
     }
-
-
 }

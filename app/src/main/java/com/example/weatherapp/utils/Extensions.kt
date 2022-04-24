@@ -6,6 +6,8 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
+fun Double.format(digits: Int) = "%.${digits}f".format(this)
+
 fun String.getFormattedDateTime(displayFormat: String): String {
 
     val dateFormatIn = SimpleDateFormat(SERVER_DATE_FORMAT, Locale.getDefault())

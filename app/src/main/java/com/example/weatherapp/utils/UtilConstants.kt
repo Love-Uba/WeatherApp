@@ -5,6 +5,9 @@ import java.util.*
 
 object UtilConstants {
 
+
+    const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
+    const val API_KEY = "cb10fda591ab950ddf6978c7e8be633c"
     const val SERVER_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS" // not timezone aware.
     const val DATE_DISPLAY_FORMAT = "dd MMMM yyyy"
     const val TIME_DISPLAY_FORMAT = "hh:mm a"
@@ -22,4 +25,8 @@ fun Date.toString(format: String, locale: Locale = Locale.getDefault()): String 
     val formatter
             = SimpleDateFormat(format, locale)
     return formatter.format(this)
+}
+
+fun showcurrentTime(): Date {
+    return Calendar.getInstance().time
 }

@@ -4,9 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
-import android.icu.math.MathContext.ROUND_HALF_EVEN
 import android.location.Location
-import android.location.LocationRequest
+import com.google.android.gms.location.LocationRequest
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
@@ -16,16 +15,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.weatherapp.data.wrapper.Result
 import com.example.weatherapp.databinding.FragmentWeeklyBinding
+import com.example.weatherapp.ui.adapter.WeatherForDaysAdapter
+import com.example.weatherapp.utils.format
+import com.example.weatherapp.utils.showcurrentTime
+import com.example.weatherapp.utils.toString
 import com.example.weatherapp.viewmodels.WeeklyViewModel
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
 import dagger.hilt.android.AndroidEntryPoint
-import java.math.BigDecimal
-import java.math.BigDecimal.ROUND_HALF_EVEN
 
 @AndroidEntryPoint
 class WeeklyFragment : Fragment() {
@@ -36,10 +38,11 @@ class WeeklyFragment : Fragment() {
     private lateinit var lastLocation: Location
     private var lastLong = 0.00
     private var lastLat = 0.00
+    private val weatherAdapter = WeatherForDaysAdapter()
 
     private lateinit var locationCallback: LocationCallback
 
-    private lateinit var locationRequest: com.google.android.gms.location.LocationRequest
+    private lateinit var locationRequest: LocationRequest
     private var locationUpdateState = false
 
     companion object {
@@ -51,7 +54,6 @@ class WeeklyFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         bnd = FragmentWeeklyBinding.inflate(layoutInflater, container, false)
 
         fusedLocationProviderClient =
@@ -88,6 +90,44 @@ class WeeklyFragment : Fragment() {
         setUpViewModels()
     }
 
+    private val currentDate = showcurrentTime().toString("dd/MM/yyyy")
+
+
+    private fun setUpViewModels() {
+        viewModel.getAllSearchResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Result.Error -> {}
+                is Result.Loading -> {}
+                is Result.Success -> {
+                    bnd.cityNameTv.text = result.value.timezone.substringAfter("/")
+                    bnd.weatherTv.text = result.value.current.weather[0].main
+                    bnd.tempTv.text = result.value.current.temp.toString()
+                    weatherAdapter.populatePredictions(result.value.daily)
+
+                    val icon = result.value.current.weather[0].icon
+
+//                    Glide.with(requireContext())
+//                        .load("http://openweathermap.org/img/wn/$icon@2x.png")
+//                        .into(bnd.weatherIcon)
+
+                }
+            }
+        }
+    }
+
+    private fun setUpViews() {
+        bnd.daysRv.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = weatherAdapter
+            setHasFixedSize(true)
+        }
+        bnd.dateTv.text = currentDate
+
+        Glide.with(requireContext())
+            .load("http://openweathermap.org/img/wn/10d@2x.png")
+            .into(bnd.weatherIcon)
+    }
+
     private fun startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
@@ -104,68 +144,32 @@ class WeeklyFragment : Fragment() {
         fusedLocationProviderClient.requestLocationUpdates(
             locationRequest,
             locationCallback,
-            Looper.getMainLooper()/* Looper */
+            Looper.getMainLooper()
         )
     }
 
-    private fun setUpViewModels() {
-        viewModel.getAllSearchResponse.observe(viewLifecycleOwner) { result ->
-            when (result) {
-                is Result.Error -> {}
-                is Result.Loading -> {}
-                is Result.Success -> {
-                    bnd.cityNameTv.text = result.value.timezone.substringAfter("/")
-//                    Glide.with(requireContext())
-//                        .load("http://openweathermap.org/img/wn/10d@2x.png")
-//                        .into(bnd.weatherIcon)
-//                    bnd.dateTv.text
-//                    bnd.tempTv.text
-//                    bnd.weatherTv.text = result.value
-
-                }
-            }
-        }
-    }
-
-    private fun setUpViews() {
-        Glide.with(requireContext())
-            .load("http://openweathermap.org/img/wn/10d@2x.png")
-            .into(bnd.weatherIcon)
-    }
-
     private fun createLocationRequest() {
-        // 1
         locationRequest = LocationRequest()
-        // 2
         locationRequest.interval = 10000
-        // 3
         locationRequest.fastestInterval = 5000
         locationRequest.priority =
             PRIORITY_HIGH_ACCURACY
         val builder = LocationSettingsRequest.Builder()
             .addLocationRequest(locationRequest)
-        // 4
         val client = LocationServices.getSettingsClient(requireActivity())
         val task = client.checkLocationSettings(builder.build())
-        // 5
         task.addOnSuccessListener {
             locationUpdateState = true
             startLocationUpdates()
         }
         task.addOnFailureListener { e ->
-            // 6
             if (e is ResolvableApiException) {
-                // Location settings are not satisfied, but this can be fixed
-                // by showing the user a dialog.
                 try {
-                    // Show the dialog by calling startResolutionForResult(),
-                    // and check the result in onActivityResult().
                     e.startResolutionForResult(
                         requireActivity(),
                         REQUEST_CHECK_SETTINGS
                     )
                 } catch (sendEx: IntentSender.SendIntentException) {
-                    // Ignore the error.
                 }
             }
         }
@@ -186,7 +190,6 @@ class WeeklyFragment : Fragment() {
         fusedLocationProviderClient.removeLocationUpdates(locationCallback)
     }
 
-    // 3
     override fun onResume() {
         super.onResume()
         if (!locationUpdateState) {
@@ -194,8 +197,6 @@ class WeeklyFragment : Fragment() {
         }
         viewModel.actionSearch(lastLat, lastLong)
     }
-
-    fun Double.format(digits: Int) = "%.${digits}f".format(this)
 
 
 }

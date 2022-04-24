@@ -2,6 +2,7 @@ package com.example.mobilechallengeone.di
 
 import com.example.weatherapp.data.ApiService
 import com.example.weatherapp.data.WeatherRepository
+import com.example.weatherapp.utils.UtilConstants.BASE_URL
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -14,9 +15,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
-
-const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
-const val API_KEY = "cb10fda591ab950ddf6978c7e8be633c"
 
 @Module
 @InstallIn(SingletonComponent::class)

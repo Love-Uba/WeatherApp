@@ -115,11 +115,12 @@
 
             <ImageView
                 android:id="@+id/feels_likeIv"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_margin="8dp"
-                android:src="@drawable/ic_search"
+                android:src="@drawable/ic_thermostat"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline6"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -127,10 +128,9 @@
                 android:id="@+id/feels_like_Tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
                 android:text="Feels like"
                 android:textSize="20dp"
-                app:layout_constraintStart_toEndOf="@+id/feels_likeIv"
+                app:layout_constraintStart_toStartOf="@+id/guideline6"
                 app:layout_constraintTop_toTopOf="@+id/feels_likeIv" />
 
             <TextView
@@ -154,6 +154,13 @@
                 app:layout_constraintStart_toStartOf="@+id/feels_like_Tv"
                 app:layout_constraintTop_toBottomOf="@+id/feels_like_Tv" />
 
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.3" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -169,11 +176,13 @@
 
             <ImageView
                 android:id="@+id/humidity_Iv"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_margin="8dp"
-                android:src="@drawable/ic_search"
+                android:background="@null"
+                android:src="@drawable/ic_humidity"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline8"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -181,10 +190,9 @@
                 android:id="@+id/humidity_Tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
                 android:text="Humidity"
                 android:textSize="20dp"
-                app:layout_constraintStart_toEndOf="@+id/humidity_Iv"
+                app:layout_constraintStart_toStartOf="@+id/guideline8"
                 app:layout_constraintTop_toTopOf="@+id/humidity_Iv" />
 
             <TextView
@@ -196,6 +204,13 @@
                 android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="@+id/humidity_Tv"
                 app:layout_constraintTop_toBottomOf="@+id/humidity_Tv" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.3" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -212,22 +227,29 @@
 
             <ImageView
                 android:id="@+id/wind_Iv"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_margin="8dp"
-                android:src="@drawable/ic_search"
+                android:src="@drawable/ic_wind"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline7"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.3" />
 
             <TextView
                 android:id="@+id/wind_Tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
                 android:text="Wind"
                 android:textSize="20dp"
-                app:layout_constraintStart_toEndOf="@+id/wind_Iv"
+                app:layout_constraintStart_toStartOf="@+id/guideline7"
                 app:layout_constraintTop_toTopOf="@+id/wind_Iv" />
 
             <TextView
@@ -254,22 +276,29 @@
 
             <ImageView
                 android:id="@+id/uv_Iv"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_margin="8dp"
-                android:src="@drawable/ic_search"
+                android:src="@drawable/ic_uv"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline9"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.3" />
 
             <TextView
                 android:id="@+id/uv_Tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
                 android:text="UV Index"
                 android:textSize="20dp"
-                app:layout_constraintStart_toEndOf="@+id/uv_Iv"
+                app:layout_constraintStart_toStartOf="@+id/guideline9"
                 app:layout_constraintTop_toTopOf="@+id/uv_Iv" />
 
             <TextView
