@@ -5,7 +5,6 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "weather_table")
 data class WeatherEntity(
-    @PrimaryKey
     val timezone :  String,
     val longitude : Double,
     val latitude : Double,
@@ -17,4 +16,7 @@ data class WeatherEntity(
     val wind: Double,
     val feelsLike: Double,
     val uvIndex:Double,
-)
+){
+    @PrimaryKey(autoGenerate = true)
+    var id : Int = 0
+}
