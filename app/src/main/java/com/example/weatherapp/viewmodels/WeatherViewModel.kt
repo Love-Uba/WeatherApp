@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @HiltViewModel
-class TodayViewModel @Inject constructor(private val weatherRepository: WeatherRepository) : ViewModel() {
+class WeatherViewModel @Inject constructor(private val weatherRepository: WeatherRepository) : ViewModel() {
 
     private val _searchByCoordResponse = MutableLiveData<Result<WeatherEntity>>()
     private val _searchByWeekResponse = MutableLiveData<Result<List<WeatherForDaysEntity>>>()

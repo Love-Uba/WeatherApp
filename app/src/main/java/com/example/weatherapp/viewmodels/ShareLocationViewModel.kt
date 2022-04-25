@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.weatherapp.data.local.LocationData
 
-class WeeklyViewModel : ViewModel() {
+class ShareLocationViewModel : ViewModel() {
 
     private val _locationData = MutableLiveData<LocationData>()
 

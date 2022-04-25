@@ -16,7 +16,7 @@ interface WeatherDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWeather(weatherEntity: WeatherEntity)
 
-    @Query("SELECT * FROM weather_table")
+    @Query("SELECT * FROM weather_table ORDER BY id DESC LIMIT 1")
     fun fetchWeather(): Flow<WeatherEntity>
 
     @Query("SELECT * FROM weatherfordays_table")

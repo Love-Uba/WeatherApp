@@ -7,23 +7,22 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.weatherapp.data.wrapper.Result
 import com.example.weatherapp.databinding.FragmentWeeklyBinding
 import com.example.weatherapp.ui.adapter.WeatherForDaysAdapter
-import com.example.weatherapp.utils.gone
-import com.example.weatherapp.utils.show
 import com.example.weatherapp.utils.showcurrentTime
 import com.example.weatherapp.utils.toString
-import com.example.weatherapp.viewmodels.TodayViewModel
+import com.example.weatherapp.viewmodels.WeatherViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class WeeklyFragment : Fragment() {
 
     private lateinit var bnd: FragmentWeeklyBinding
-    private val viewModel: TodayViewModel by activityViewModels()
+    private val viewModel: WeatherViewModel by activityViewModels()
     private val weatherAdapter = WeatherForDaysAdapter()
 
     override fun onCreateView(
@@ -80,6 +79,7 @@ class WeeklyFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = weatherAdapter
             setHasFixedSize(true)
+            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
         bnd.dateTv.text = currentDate
     }

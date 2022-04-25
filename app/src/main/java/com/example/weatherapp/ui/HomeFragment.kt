@@ -1,25 +1,24 @@
 package com.example.weatherapp.ui
 
-import android.app.Activity
-import android.content.Intent
+import android.Manifest
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.weatherapp.R
 import com.example.weatherapp.data.local.LocationData
 import com.example.weatherapp.databinding.FragmentHomeBinding
-import com.example.weatherapp.ui.HomeFragment.Companion.LOCATION_PERMISSION_REQUEST_CODE
-import com.example.weatherapp.ui.HomeFragment.Companion.REQUEST_CHECK_SETTINGS
 import com.example.weatherapp.utils.format
-import com.example.weatherapp.viewmodels.WeeklyViewModel
+import com.example.weatherapp.viewmodels.ShareLocationViewModel
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,12 +27,10 @@ import dagger.hilt.android.AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private lateinit var bnd: FragmentHomeBinding
-    private val sharedViewModel : WeeklyViewModel by activityViewModels()
+    private val sharedViewModel : ShareLocationViewModel by activityViewModels()
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var lastLocation: Location
-    private var lastLong = 0.00
-    private var lastLat = 0.00
 
     private lateinit var locationCallback: LocationCallback
 
@@ -41,16 +38,19 @@ class HomeFragment : Fragment() {
     private var locationUpdateState = false
 
     companion object {
-        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
         private const val REQUEST_CHECK_SETTINGS = 2
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        fusedLocationProviderClient =
-            LocationServices.getFusedLocationProviderClient(requireActivity())
-
+    val activityResultLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        if(permissions.any {
+                it.value
+            }){
+            startLocationUpdates()
+        }else{
+            Toast.makeText(context, "Please grant location access", Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onCreateView(
@@ -59,6 +59,10 @@ class HomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         bnd = FragmentHomeBinding.inflate(layoutInflater, container, false)
+
+        fusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(requireActivity())
+
         setUpNav()
         return bnd.root
     }
@@ -70,8 +74,8 @@ class HomeFragment : Fragment() {
             override fun onLocationResult(p0: LocationResult) {
                 super.onLocationResult(p0)
                 lastLocation = p0.lastLocation
-                lastLat = lastLocation.latitude.format(2).toDouble()
-                lastLong = lastLocation.longitude.format(2).toDouble()
+                val lastLat = lastLocation.latitude.format(2).toDouble()
+                val lastLong = lastLocation.longitude.format(2).toDouble()
                 sharedViewModel.shareLocationData(LocationData(lastLat, lastLong))
             }
         }
@@ -85,10 +89,11 @@ class HomeFragment : Fragment() {
                 android.Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQUEST_CODE
+            activityResultLauncher.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
             )
             return
         }else {
@@ -127,16 +132,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CHECK_SETTINGS) {
-            if (resultCode == Activity.RESULT_OK) {
-                locationUpdateState = true
-                startLocationUpdates()
-            }
-        }
-    }
-
     override fun onPause() {
         super.onPause()
         fusedLocationProviderClient.removeLocationUpdates(locationCallback)
@@ -147,7 +142,6 @@ class HomeFragment : Fragment() {
         if (!locationUpdateState) {
             startLocationUpdates()
         }
-        sharedViewModel.shareLocationData(LocationData(lastLat,lastLong))
     }
 
 
