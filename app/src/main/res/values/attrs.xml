@@ -5,4 +5,10 @@
         <attr name="loadingText" format="string"/>
     </declare-styleable>
 
+    <declare-styleable name="CustomWeatherDataItemView">
+        <attr name="icon" format="reference"/>
+        <attr name="title" format="string"/>
+        <attr name="subtitle" format="string"/>
+    </declare-styleable>
+
 </resources>

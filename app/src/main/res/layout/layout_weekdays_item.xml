@@ -38,10 +38,13 @@
         android:id="@+id/weather_summaryTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAlignment="viewStart"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:layout_marginEnd="10dp"
         android:text="Mostly cloudy with a fair amount of Sun"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/temp_rangeTv"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

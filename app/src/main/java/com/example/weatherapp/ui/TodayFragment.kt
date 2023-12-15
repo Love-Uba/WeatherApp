@@ -62,16 +62,16 @@ class TodayFragment : Fragment() {
                 is Result.Success -> {
                     bnd.loadingView.gone()
                     bnd.todayWrap.show()
+                    bnd.feelsLikeWrap.setTempItem(result.value.feelsLike.toString())
+                    bnd.humidityWrap.setTempItem(result.value.humidity.toString())
+                    bnd.windWrap.setTempItem(result.value.wind.toString())
+                    bnd.uvWrap.setTempItem(result.value.uvIndex.toString())
                     bnd.cityNameTv.text = result.value.timezone.substringAfter("/")
                     bnd.tempTv.text = result.value.temp.toString()
-                    bnd.humidityPercentTv.text = result.value.humidity.toString()
-                    bnd.windSpeedTv.text = result.value.wind.toString()
-                    bnd.feelsLikeTempTv.text = result.value.feelsLike.toString()
                     bnd.weatherTv.text = result.value.status
-                    bnd.uvIndexTv.text = result.value.uvIndex.toString()
                     val icon = result.value.icon
                     Glide.with(requireContext())
-                        .load("http://openweathermap.org/img/wn/$icon@2x.png")
+                        .load("http://openweathermap.org/img/wn/01d@2x.png")
                         .into(bnd.weatherIcon)
                 }
             }
